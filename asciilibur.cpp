@@ -1,19 +1,9 @@
 #include "asciilibur.hpp"
 
-#ifdef __APPLE__
-#define MACOS
-#elif defined _WIN32 || defined _WIN64
-#define WINDOWS
-#elif defined __linux__ 
-#define LINUX
-#endif
-
 #include <iostream>
 
-#ifdef WINDOWS
 #include <windows.h>
 #include <sys/timeb.h>
-#endif
 
 
 asciilibur::FrameBuffer::FrameBuffer(uint8_t width, uint8_t height)
@@ -66,7 +56,6 @@ void asciilibur::FrameBuffer::clear_buffer() {
 }
 
 void asciilibur::FrameBuffer::render_buffer() {
-#ifdef WINDOWS
     HANDLE stdout_handle = GetStdHandle(STD_OUTPUT_HANDLE);
 
     COORD console_pos;
@@ -81,30 +70,23 @@ void asciilibur::FrameBuffer::render_buffer() {
         console_pos.Y = y;
         SetConsoleCursorPosition(stdout_handle, console_pos);
     }
-#endif
 }
 
 void asciilibur::FrameBuffer::hide_cursor() {
-#ifdef WINDOWS
     HANDLE stdout_handle = GetStdHandle(STD_OUTPUT_HANDLE);
 
     CONSOLE_CURSOR_INFO info;
     GetConsoleCursorInfo(stdout_handle, &info);
     info.bVisible = false;
     SetConsoleCursorInfo(stdout_handle, &info);
-#endif
 }
 
 uint64_t asciilibur::time::get_time() {
-#ifdef WINDOWS
     struct _timeb timebuffer;
     _ftime(&timebuffer);
     return static_cast<uint64_t>((timebuffer.time * 1000) + timebuffer.millitm);
-#endif
 }
 
 asciilibur::input::KeyState asciilibur::input::get_key_state(int key_code) {
-#ifdef WINDOWS
     return GetAsyncKeyState(key_code) ? KeyState::Down : KeyState::Up;
-#endif
 }
