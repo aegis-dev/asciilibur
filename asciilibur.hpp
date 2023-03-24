@@ -75,5 +75,18 @@ namespace asciilibur {
 
         Position camera;
     };
+
+    namespace time {
+        uint64_t get_time();
+    }
+
+    namespace input {
+        enum KeyState : uint8_t {
+            Up,
+            Down,
+        };
+
+        KeyState get_key_state(int keycode);
+    }
 }
 
