@@ -41,20 +41,31 @@ namespace asciilibur {
         // TODO: add more commonly used ones
     };
 
+    struct Position {
+        uint16_t x;
+        uint16_t y;
+
+        Position() : x(0), y(0) { }
+        Position(uint16_t x, uint16_t y) : x(x), y(y) { }
+    };
+
     class FrameBuffer {
     public:
         FrameBuffer(uint8_t width, uint8_t height);
         ~FrameBuffer();
 
-        void draw(uint8_t chr, uint8_t x, uint8_t y);
-        void draw(Char chr, uint8_t x, uint8_t y);
+        void draw(uint8_t chr, Position pos);
+        void draw(Char chr, Position pos);
+        void draw(uint8_t chr, uint16_t x, uint16_t y);
+        void draw(Char chr, uint16_t x, uint16_t y);
 
+        void set_camera_pos(uint16_t x, uint16_t y);
+        void set_camera_pos(Position pos);
 
         void clear_buffer();
         void render_buffer();
 
     private:
-        void reset_cursor();
         void hide_cursor();
 
     private:
@@ -62,8 +73,7 @@ namespace asciilibur {
         uint8_t width;
         uint8_t height;
 
-        uint16_t camera_x;
-        uint16_t camera_y;
+        Position camera;
     };
 }
 

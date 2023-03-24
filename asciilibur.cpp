@@ -5,7 +5,7 @@
 
 
 asciilibur::FrameBuffer::FrameBuffer(uint8_t width, uint8_t height)
-: width(width), height(height), buffer(nullptr)
+: width(width), height(height), buffer(nullptr), camera()
 {
     buffer = reinterpret_cast<uint8_t*>(malloc(width * height));
 
@@ -17,16 +17,36 @@ asciilibur::FrameBuffer::~FrameBuffer() {
     free(buffer);
 }
 
-void asciilibur::FrameBuffer::draw(uint8_t chr, uint8_t x, uint8_t y) {
-    if (x >= width || y >= height) {
+void asciilibur::FrameBuffer::draw(uint8_t chr, Position pos) {
+    pos.x = pos.x - camera.x;
+    pos.y = pos.y - camera.y;
+
+    if (pos.x >= width || pos.y >= height) {
         return;
     }
 
-    buffer[y * width + x] = chr;
+    buffer[pos.y * width + pos.x] = chr;
 }
 
-void asciilibur::FrameBuffer::draw(Char chr, uint8_t x, uint8_t y) {
-    draw(static_cast<uint8_t>(chr), x, y);
+void asciilibur::FrameBuffer::draw(Char chr, Position pos) {
+    draw(static_cast<uint8_t>(chr), pos);
+}
+
+void asciilibur::FrameBuffer::draw(uint8_t chr, uint16_t x, uint16_t y) {
+    draw(chr, Position(x, y));
+}
+
+void asciilibur::FrameBuffer::draw(Char chr, uint16_t x, uint16_t y) {
+    draw(static_cast<uint8_t>(chr), Position(x, y));
+}
+
+void asciilibur::FrameBuffer::set_camera_pos(uint16_t x, uint16_t y) {
+    camera.x = x;
+    camera.y = y;
+}
+
+void asciilibur::FrameBuffer::set_camera_pos(Position pos) {
+    camera = std::move(pos);
 }
 
 void asciilibur::FrameBuffer::clear_buffer() {
@@ -34,23 +54,20 @@ void asciilibur::FrameBuffer::clear_buffer() {
 }
 
 void asciilibur::FrameBuffer::render_buffer() {
-    reset_cursor();
+    HANDLE stdout_handle = GetStdHandle(STD_OUTPUT_HANDLE);
+
+    COORD console_pos;
+    console_pos.X = 0;
+    console_pos.Y = 0;
 
     for (uint8_t y = 0; y < height; ++y) {
         for (uint8_t x = 0; x < width; ++x) {
             std::cout << buffer[y * width + x];
         }
-        std::cout << std::endl;
+        console_pos.X = 0;
+        console_pos.Y = y;
+        SetConsoleCursorPosition(stdout_handle, console_pos);
     }
-}
-
-void asciilibur::FrameBuffer::reset_cursor() {
-    HANDLE stdout_handle = GetStdHandle(STD_OUTPUT_HANDLE);
-
-    COORD pos;
-    pos.X = 0;
-    pos.Y = 0;
-    SetConsoleCursorPosition(stdout_handle, pos);
 }
 
 void asciilibur::FrameBuffer::hide_cursor() {
