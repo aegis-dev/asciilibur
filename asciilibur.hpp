@@ -86,7 +86,7 @@ namespace asciilibur {
             Down,
         };
 
-        KeyState get_key_state(int keycode);
+        KeyState get_key_state(int key_code);
     }
 }
 

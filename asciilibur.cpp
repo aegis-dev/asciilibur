@@ -103,8 +103,8 @@ uint64_t asciilibur::time::get_time() {
 #endif
 }
 
-asciilibur::input::KeyState asciilibur::input::get_key_state(int keycode) {
+asciilibur::input::KeyState asciilibur::input::get_key_state(int key_code) {
 #ifdef WINDOWS
-    return GetAsyncKeyState(VK_ESCAPE) ? KeyState::Down : KeyState::Up;
+    return GetAsyncKeyState(key_code) ? KeyState::Down : KeyState::Up;
 #endif
 }
