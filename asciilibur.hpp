@@ -48,6 +48,8 @@ namespace asciilibur {
 
         void draw(uint8_t chr, uint8_t x, uint8_t y);
         void draw(Char chr, uint8_t x, uint8_t y);
+
+
         void clear_buffer();
         void render_buffer();
 
@@ -59,6 +61,9 @@ namespace asciilibur {
         uint8_t* buffer;
         uint8_t width;
         uint8_t height;
+
+        uint16_t camera_x;
+        uint16_t camera_y;
     };
 }
 
