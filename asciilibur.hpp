@@ -42,11 +42,11 @@ namespace asciilibur {
     };
 
     struct Position {
-        uint16_t x;
-        uint16_t y;
+        int16_t x;
+        int16_t y;
 
         Position() : x(0), y(0) { }
-        Position(uint16_t x, uint16_t y) : x(x), y(y) { }
+        Position(int16_t x, int16_t y) : x(x), y(y) { }
     };
 
     class FrameBuffer {
@@ -56,18 +56,18 @@ namespace asciilibur {
 
         void draw(uint8_t chr, Position pos);
         void draw(Char chr, Position pos);
-        void draw(uint8_t chr, uint16_t x, uint16_t y);
-        void draw(Char chr, uint16_t x, uint16_t y);
+        void draw(uint8_t chr, int16_t x, int16_t y);
+        void draw(Char chr, int16_t x, int16_t y);
 
         // Draw null termianted char array. Supports `\n` for multiline sprite
         void draw_sprite(const char* sprite, Position pos);
-        void draw_sprite(const char* sprite, uint16_t x, uint16_t y);
+        void draw_sprite(const char* sprite, int16_t x, int16_t y);
 
         // Draw null termianted uint8_t array. Supports `\n` for multiline sprite
         void draw_sprite(const uint8_t* sprite, size_t size, Position pos);
-        void draw_sprite(const uint8_t* sprite, size_t size, uint16_t x, uint16_t y);
+        void draw_sprite(const uint8_t* sprite, size_t size, int16_t x, int16_t y);
 
-        void set_camera_pos(uint16_t x, uint16_t y);
+        void set_camera_pos(int16_t x, int16_t y);
         void set_camera_pos(Position pos);
 
         void clear_buffer();
