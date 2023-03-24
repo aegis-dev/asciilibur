@@ -4,7 +4,7 @@
 
 
 /* Extended ASCII table
-  1 - ☺      2 - ☻      3 - ♥      4 - ♦      5 - ♣      6 - ♠
+  1 - ☺      2 - ☻      3 - ♥      4 - ♦      5 - ♣      6 - ♠     10 - new line 
  14 - ♫     15 - ☼     16 - ►     17 - ◄     18 - ↕     19 - ‼
  20 - ¶     21 - §     22 - ▬     23 - ↨     24 - ↑     25 - ↓     26 - →     28 - ∟     29 - ↔
  30 - ▲     31 - ▼     32 -       33 - !     34 - "     35 - #     36 - $     37 - %     38 - &     39 - '
@@ -58,6 +58,14 @@ namespace asciilibur {
         void draw(Char chr, Position pos);
         void draw(uint8_t chr, uint16_t x, uint16_t y);
         void draw(Char chr, uint16_t x, uint16_t y);
+
+        // Draw null termianted char array. Supports `\n` for multiline sprite
+        void draw_sprite(const char* sprite, Position pos);
+        void draw_sprite(const char* sprite, uint16_t x, uint16_t y);
+
+        // Draw null termianted uint8_t array. Supports `\n` for multiline sprite
+        void draw_sprite(const uint8_t* sprite, size_t size, Position pos);
+        void draw_sprite(const uint8_t* sprite, size_t size, uint16_t x, uint16_t y);
 
         void set_camera_pos(uint16_t x, uint16_t y);
         void set_camera_pos(Position pos);

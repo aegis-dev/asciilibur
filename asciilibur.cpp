@@ -42,6 +42,36 @@ void asciilibur::FrameBuffer::draw(Char chr, uint16_t x, uint16_t y) {
     draw(static_cast<uint8_t>(chr), Position(x, y));
 }
 
+void asciilibur::FrameBuffer::draw_sprite(const char* sprite, Position pos) {
+    const uint8_t* sprite_bytes = reinterpret_cast<const uint8_t*>(sprite);
+    size_t size = strlen(sprite);
+    draw_sprite(sprite_bytes, size, pos);
+}
+
+void asciilibur::FrameBuffer::draw_sprite(const char* sprite, uint16_t x, uint16_t y) {
+    draw_sprite(sprite, Position(x, y));
+}
+
+void asciilibur::FrameBuffer::draw_sprite(const uint8_t* sprite, size_t size, Position pos) {
+    uint8_t x = 0;
+    uint8_t y = 0;
+
+    for (size_t idx = 0; idx < size; ++idx) {
+        uint8_t chr = sprite[idx];
+        if (chr == '\n') {
+            ++y;
+            x = 0;
+            continue;
+        }
+        draw(chr, Position(pos.x + x, pos.y + y));
+        ++x;
+    }
+}
+
+void asciilibur::FrameBuffer::draw_sprite(const uint8_t* sprite, size_t size, uint16_t x, uint16_t y) {
+    draw_sprite(sprite, size, Position(x, y));
+}
+
 void asciilibur::FrameBuffer::set_camera_pos(uint16_t x, uint16_t y) {
     camera.x = x;
     camera.y = y;
