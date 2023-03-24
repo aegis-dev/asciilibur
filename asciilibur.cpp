@@ -7,7 +7,7 @@
 asciilibur::FrameBuffer::FrameBuffer(uint8_t width, uint8_t height)
 : width(width), height(height), buffer(nullptr), camera()
 {
-    buffer = reinterpret_cast<uint8_t*>(malloc(width * height));
+    buffer = reinterpret_cast<uint8_t*>(malloc(static_cast<size_t>(width) * height));
 
     clear_buffer();
     hide_cursor();
@@ -50,7 +50,7 @@ void asciilibur::FrameBuffer::set_camera_pos(Position pos) {
 }
 
 void asciilibur::FrameBuffer::clear_buffer() {
-    memset(buffer, Char::WHITESPACE, width * height);
+    memset(buffer, Char::WHITESPACE, static_cast<size_t>(width) * height);
 }
 
 void asciilibur::FrameBuffer::render_buffer() {
