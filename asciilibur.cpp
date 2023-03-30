@@ -91,16 +91,11 @@ void asciilibur::FrameBuffer::render_buffer() {
     COORD console_pos;
     console_pos.X = 0;
     console_pos.Y = 0;
-
     SetConsoleCursorPosition(stdout_handle, console_pos);
 
+    uint8_t last_line = height - 1;
     for (uint8_t y = 0; y < height; ++y) {
-        for (uint8_t x = 0; x < width; ++x) {
-            std::cout << buffer[y * width + x];
-        }
-        console_pos.X = 0;
-        console_pos.Y = y;
-        SetConsoleCursorPosition(stdout_handle, console_pos);
+        printf("%.*s%s", width, (buffer + y * width), (y == last_line ? "" : "\n"));
     }
 }
 
