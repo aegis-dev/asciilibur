@@ -52,7 +52,9 @@ namespace asciilibur {
     class FrameBuffer {
     public:
         FrameBuffer(uint8_t width, uint8_t height);
+        FrameBuffer(const FrameBuffer&) = delete;
         ~FrameBuffer();
+
 
         void draw(uint8_t chr, Position pos);
         void draw(Char chr, Position pos);
